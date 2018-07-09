@@ -11,8 +11,8 @@ from scipy.stats import skew
 pd.set_option('display.width', 320)
 pd.set_option('display.max_columns', None)
 
-train = pd.read_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-titanic/data/house-price-train.csv", index_col=0)
-test  = pd.read_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-titanic/data/house-price-test.csv", index_col=0)
+train = pd.read_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-house-prices/data/house-price-train.csv", index_col=0)
+test  = pd.read_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-house-prices/data/house-price-test.csv", index_col=0)
 
 # print(train.head())
 # combine  = [train, test]
@@ -338,11 +338,13 @@ test = all_data[train.shape[0]:]
 
 train['SalePrice'] = labels
 
+test.insert(0, 'Id', range(1461, 1461 + len(test)))
+
 # print(train.head())
 # print(test.head())
 
 
-train.to_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-titanic/local-data/house-price-train-clean.csv", index=False)
-test.to_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-titanic/local-data/house-price-test-clean.csv", index=False)
+train.to_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-house-prices/local-data/house-price-train-clean.csv", index=False)
+test.to_csv("/home/vagrant/vmtest/github-raoulbia-kaggle-house-prices/local-data/house-price-test-clean.csv", index=False)
 
 print('Done!')

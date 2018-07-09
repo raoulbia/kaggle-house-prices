@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
-from src.logistic_regression import regularizedCostLogReg
+from src.linear_regression import regularizedCostLinReg
 
 # test passenger
 # test_passenger_survived = np.matrix([0, 3, 0, 26.0, 7.9250, 2, 9, 0])
@@ -33,7 +33,6 @@ print('\ninit feature_weights\n', feature_weights)
 print('\nfeature_matrix\n', feature_matrix)
 print('\nground_truth\n', ground_truth, '\n--------------\n')
 
-J, grad = regularizedCostLogReg(linear, X=feature_matrix, theta=feature_weights, y=ground_truth, learning_rate=0.1,
-                                reg_param=4)
+J, grad = regularizedCostLinReg(X=feature_matrix, theta=feature_weights, y=ground_truth, learning_rate=0.1, reg_param=4)
 
 print(grad)

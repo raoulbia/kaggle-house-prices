@@ -10,7 +10,8 @@ set +e
 conda remove -y --name ${VIRTUALENV} --all
 set -e
 
-conda create -qy --name ${VIRTUALENV} mkl numpy scipy scikit-learn
+# conda create -qy --name ${VIRTUALENV} mkl numpy scipy scikit-learn
+conda create -qy --name ${VIRTUALENV} accelerate
 
 source activate ${VIRTUALENV}
 
