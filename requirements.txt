@@ -7,7 +7,6 @@ seaborn
 xmltodict
 tqdm
 tabulate
-cudatoolkit=7.5
 
 # also install self (requires setup.py to exist)
 # -e .
