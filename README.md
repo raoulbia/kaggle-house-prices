@@ -38,7 +38,7 @@ To evaluate the algorithm I implemented:
   * regularization term = 1.2
   
 * Results: 
-  * accuracy 0.35
+  * root mean squared logarithmic error 0.35
   * leaderboard position  4674 (as of 07/2018)
 
 <br>
@@ -57,6 +57,7 @@ cost.
 * [example of another DIY implementation of linear regression](https://github.com/itsrandeep/linear_regression)
 
 * Linear Regression
+  * [Linear regression models](https://people.duke.edu/~rnau/411regou.htm)
   * [Real Estate Price Prediction with Regression and Classification](http://cs229.stanford.edu/proj2016/report/WuYu_HousingPrice_report.pdf)
   * [Linear regression blogpost]
   * [House price prediction blogpost](https://towardsdatascience.com/regression-analysis-model-used-in-machine-learning-318f7656108a)

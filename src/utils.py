@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import logging
 logger = logging.getLogger(name=__name__)
@@ -41,10 +41,8 @@ def split_cleaned_data(df, test_size, dataset):
 
     return model_selection.train_test_split(X, y, test_size=test_size)
 
-
 def sigmoid(p):
     return expit(p)
-
 
 def evaluate(y, p):
     pass

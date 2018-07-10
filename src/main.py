@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import argparse
 import logging
@@ -17,16 +17,15 @@ from sklearn import preprocessing
 
 from matplotlib import pyplot as plt
 
-
 import utils
 from linear_regression import *
 import utils
 import utils_stats
 import utils_viz
 
-def model_data(model, dataset, train_file_path, test_file_path, results_file_path,
+def model_data(dataset, train_file_path, test_file_path, results_file_path,
                test_size, num_iters, learning_rate,
-               cost_history_plot, learning_curve,
+               cost_history_plot, learning_curve, validation_curve,
                reg_param):
 
     # get data
@@ -40,8 +39,9 @@ def model_data(model, dataset, train_file_path, test_file_path, results_file_pat
 
     # Normalize features
     X = preprocessing.normalize(X)
-    print(X[:5, :])
-    print(y[:5])
+    # X = preprocessing.scale(X)
+    # print(X[:5, :])
+    # print(y[:5])
 
     theta_optimized, cost_history = trainLinReg(X=X, y=y, learning_rate=learning_rate, iterations=num_iters,
                                                 reg_param=reg_param)
@@ -51,31 +51,36 @@ def model_data(model, dataset, train_file_path, test_file_path, results_file_pat
     # Predict on Train data
     p = predictLinReg(X=X, theta=theta_optimized)
     # print(y[:5])
-    print(p[:5])
-    utils.evaluate(y=y, p=p)
+    # print(p[:5])
+    utils.evaluate(y=y, p=p) #TODO complete function
 
-    # plot Cost History
+    ### Cost History Curve
     if cost_history_plot == 1:
         utils_viz.costHistoryPlot(cost_history=cost_history)
 
+    # split X/y and train/test
+    X_train, X_test, y_train, y_test = utils.split_cleaned_data(df=df, test_size=test_size, dataset=dataset)
+
+    # Normalize
+    X_train = preprocessing.normalize(X_train)
+    X_test = preprocessing.normalize(X_test)
+    # X_train = preprocessing.scale(X_train)
+    # X_test = preprocessing.scale(X_test)
+
+    ### Validation Curve
+    if validation_curve == 1:
+        validationCurveRegParam(X=X_train, y=y_train, X_val=X_test, y_val=y_test,
+                                learning_rate=learning_rate, iterations=num_iters)
+
+        # validationCurveLearnParam(X=X_train, y=y_train, X_val=X_test, y_val=y_test, iterations=num_iters)
+
+
+
     ### Learning Curve
     if learning_curve == 1:
-        # split X/y and train/test
-        X_train, X_test, y_train, y_test = utils.split_cleaned_data(df=df, test_size=test_size, dataset=dataset)
-
-        # Normalize
-        X_train = preprocessing.normalize(X_train)
-        X_test = preprocessing.normalize(X_test)
-
         error_train, error_test = learningCurveLinReg(X=X_train, y=y_train, X_val=X_test, y_val=y_test,
                                                       learning_rate=learning_rate, iterations=num_iters,
                                                       reg_param=reg_param)
-
-        # print(error_train)
-        # print(error_test)
-        utils_viz.plot_learning_curve(errors=[error_train, error_test])
-
-
 
     ### Apply to Kaggle test data
     if cost_history_plot==-1 and learning_curve == -1:
@@ -100,7 +105,7 @@ def model_data(model, dataset, train_file_path, test_file_path, results_file_pat
 
         ### Predict on Test data
         p = predictLinReg(X=X_test, theta=theta_optimized)
-        print(p[:5])
+        # print(p[:5])
 
         res = pd.concat((X_Ids, pd.DataFrame(p, dtype=float)), axis=1)
         res.to_csv(results_file_path, index=False, header=['Id', 'SalePrice'])
@@ -112,7 +117,6 @@ if __name__ == '__main__':
     logger = logging.getLogger()
     logging.basicConfig(level=logging.INFO)
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('--model', type=str)
     argparser.add_argument('--dataset', type=str)
     argparser.add_argument('--train-file-path')
     argparser.add_argument('--test-file-path')
@@ -122,6 +126,7 @@ if __name__ == '__main__':
     argparser.add_argument('--learning-rate', type=float)
     argparser.add_argument('--cost-history-plot', type=int)
     argparser.add_argument('--learning-curve', type=int)
+    argparser.add_argument('--validation-curve', type=int)
     argparser.add_argument('--reg-param', type=float)
     args = argparser.parse_args()
 

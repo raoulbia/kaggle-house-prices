@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import numpy as np
 import seaborn as sns
 sns.set(style="white")
 sns.set(style="whitegrid", color_codes=True)
@@ -52,5 +53,33 @@ def plot_learning_curve(errors):
         for index, g in enumerate(i):
             x.append(index)
         plt.plot(x, i)
+    plt.legend(['train', 'test'])
+    plt.show()
+
+def plot_validation_curve_reg(reg_param_values, errors):
+
+    # plt.plot(errors[0])
+    plt.plot(errors)
+    # plt.axis([0, max(reg_param_values), -1, max(errors)]) #[xmin, xmax, ymin, ymax]
+    plt.xlabel(reg_param_values)
+    plt.grid()
+    plt.xlabel("lambda", fontsize=12)
+    plt.ylabel("error", fontsize=12)
+    plt.title("Validation Curve", fontsize=12)
+    plt.legend(['train', 'test'])
+    plt.show()
+
+def plot_validation_curve_learn(learn_param_values, errors):
+    print(learn_param_values)
+    # plt.plot(errors[0])
+    plt.plot(learn_param_values, errors)
+    # plt.axis([0, max(learn_param_values), -1, max(errors)])  # [xmin, xmax, ymin, ymax]
+
+    # plt.grid()
+    # plt.xlabel("alpha", fontsize=12)
+    # plt.xlabel(learn_param_values)
+    plt.xticks(np.arange(min(learn_param_values), max(learn_param_values)+1)) # range(lower_index, upper_index+1)
+    plt.ylabel("error")
+    plt.title("Validation Curve")
     plt.legend(['train', 'test'])
     plt.show()

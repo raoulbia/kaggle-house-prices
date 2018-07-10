@@ -1,2 +1,2 @@
-.idea
-.local-data/
+*.idea
+local-data/*
