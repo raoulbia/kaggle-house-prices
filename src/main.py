@@ -23,68 +23,61 @@ import utils
 import utils_stats
 import utils_viz
 
-def model_data(dataset, train_file_path, test_file_path, results_file_path,
-               test_size, num_iters, learning_rate,
-               cost_history_plot, learning_curve, validation_curve,
-               reg_param):
+def model_data(dataset, train_file_path, test_file_path, results_file_path, test_size, num_iters, _alpha, basic,
+               learning_curve, validation_curve, _lambda):
 
     # get data
     df = utils.read_csv(train_file_path)
     print(df.head())
 
-    ### Train Logistic Regression
+    ### Basic Workflow
+    if basic==1:
+        # separate features from target
+        X, _, y, _ = utils.split_cleaned_data(df=df, test_size=0, dataset=dataset)
 
-    # separater features from target
-    X, _, y, _ = utils.split_cleaned_data(df=df, test_size=0, dataset=dataset)
+        # Normalize features
+        X = preprocessing.normalize(X)
 
-    # Normalize features
-    X = preprocessing.normalize(X)
-    # X = preprocessing.scale(X)
-    # print(X[:5, :])
-    # print(y[:5])
+        theta_optimized, cost_history = trainLinearRegression(X=X, y=y, learning_rate=_alpha, iterations=num_iters,
+                                                              reg_param=_lambda)
 
-    theta_optimized, cost_history = trainLinReg(X=X, y=y, learning_rate=learning_rate, iterations=num_iters,
-                                                reg_param=reg_param)
+        logger.info('coeff: \n{}'.format(theta_optimized.T))
 
-    logger.info('coeff: \n{}'.format(theta_optimized.T))
+        # Predict on Train data
+        p = predictValues(X=X, theta=theta_optimized)
+        # print(y[:5])
+        # print(p[:5])
+        utils.evaluate(y=y, p=p) #TODO complete function
 
-    # Predict on Train data
-    p = predictLinReg(X=X, theta=theta_optimized)
-    # print(y[:5])
-    # print(p[:5])
-    utils.evaluate(y=y, p=p) #TODO complete function
-
-    ### Cost History Curve
-    if cost_history_plot == 1:
+        # Cost History Curve
         utils_viz.costHistoryPlot(cost_history=cost_history)
 
-    # split X/y and train/test
+    ### Advanced Workflow
+
+    # split train / test
     X_train, X_test, y_train, y_test = utils.split_cleaned_data(df=df, test_size=test_size, dataset=dataset)
 
     # Normalize
     X_train = preprocessing.normalize(X_train)
     X_test = preprocessing.normalize(X_test)
-    # X_train = preprocessing.scale(X_train)
-    # X_test = preprocessing.scale(X_test)
 
-    ### Validation Curve
+    # Validation Curves
     if validation_curve == 1:
-        validationCurveRegParam(X=X_train, y=y_train, X_val=X_test, y_val=y_test,
-                                learning_rate=learning_rate, iterations=num_iters)
+        # lambda
+        validationCurveLambda(X=X_train, y=y_train, X_val=X_test, y_val=y_test, _alpha=_alpha, iterations=num_iters)
 
-        # validationCurveLearnParam(X=X_train, y=y_train, X_val=X_test, y_val=y_test, iterations=num_iters)
+        # alpha
+        validationCurveAlpha(X=X_train, y=y_train, X_val=X_test, y_val=y_test, iterations=num_iters)
 
 
-
-    ### Learning Curve
+    # Learning Curve
     if learning_curve == 1:
-        error_train, error_test = learningCurveLinReg(X=X_train, y=y_train, X_val=X_test, y_val=y_test,
-                                                      learning_rate=learning_rate, iterations=num_iters,
-                                                      reg_param=reg_param)
+        learningCurve(X=X_train, y=y_train, X_val=X_test, y_val=y_test, _alpha=_alpha, iterations=num_iters,
+                      _lambda=_lambda)
 
     ### Apply to Kaggle test data
-    if cost_history_plot==-1 and learning_curve == -1:
-
+    if basic==-1 and learning_curve == -1:
+        theta_optimized = np.zeros((X_train.shape[1], 1))
         # get data
         X_test = utils.read_csv(test_file_path)
         # print(X_test.shape)
@@ -104,7 +97,7 @@ def model_data(dataset, train_file_path, test_file_path, results_file_path,
         X_test = preprocessing.normalize(X_test)
 
         ### Predict on Test data
-        p = predictLinReg(X=X_test, theta=theta_optimized)
+        p = predictValues(X=X_test, theta=theta_optimized)
         # print(p[:5])
 
         res = pd.concat((X_Ids, pd.DataFrame(p, dtype=float)), axis=1)
@@ -123,11 +116,11 @@ if __name__ == '__main__':
     argparser.add_argument('--results-file-path')
     argparser.add_argument('--test-size', type=float)
     argparser.add_argument('--num-iters', type=int)
-    argparser.add_argument('--learning-rate', type=float)
-    argparser.add_argument('--cost-history-plot', type=int)
+    argparser.add_argument('--_alpha', type=float)
+    argparser.add_argument('--basic', type=int)
     argparser.add_argument('--learning-curve', type=int)
     argparser.add_argument('--validation-curve', type=int)
-    argparser.add_argument('--reg-param', type=float)
+    argparser.add_argument('--_lambda', type=float)
     args = argparser.parse_args()
 
     model_data(**vars(args))

@@ -38,8 +38,8 @@ To evaluate the algorithm I implemented:
   * regularization term = 1.2
   
 * Results: 
-  * root mean squared logarithmic error 0.35
-  * leaderboard position  4674 (as of 07/2018)
+  * root mean squared logarithmic error 0.34
+  * leaderboard position  4678 (as of 07/2018)
 
 <br>
 

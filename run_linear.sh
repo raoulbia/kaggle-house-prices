@@ -8,8 +8,8 @@ time python3 src/main.py \
     --results-file-path /home/vagrant/vmtest/github-raoulbia-kaggle-house-prices/local-data/house-price-results.csv \
     --test-size 0.3 \
     --num-iters 1500 \
-    --cost-history-plot -1 \
+    --basic -1 \
     --learning-curve -1 \
-    --validation-curve -1 \
-    --learning-rate 0.0003 \
-    --reg-param 0.11 \
+    --validation-curve 1 \
+    --_alpha 0.3 \
+    --_lambda 1.2 \
