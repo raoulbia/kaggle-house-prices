@@ -7,6 +7,6 @@ time python3 src/main_kaggle.py \
     --results-file-path /home/vagrant/vmtest/github-raoulbia-kaggle-house-prices/local-data/house-price-results.csv \
     --num-iters 1500 \
     --learn-hyperparamters 1 \
-    --_alpha 0.03 \
+    --alpha 0.03 \
     --_lambda 0.0001 \
 

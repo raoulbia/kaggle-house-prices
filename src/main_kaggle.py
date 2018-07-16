@@ -16,21 +16,11 @@ np.set_printoptions(suppress=True)
 
 from sklearn import preprocessing
 
-from matplotlib import pyplot as plt
-
-import utils
 from linear_regression import *
-import utils
 import utils_stats
 import utils_viz
 
-def model_data(train_file_path,
-               test_file_path,
-               results_file_path,
-               num_iters,
-               learn_hyperparamters,
-               _alpha,
-               _lambda):
+def model_data(train_file_path, test_file_path, results_file_path, num_iters, learn_hyperparamters, alpha, _lambda):
 
     # get data (cleaned)
     X_df = pd.read_csv(train_file_path)
@@ -111,7 +101,7 @@ def model_data(train_file_path,
         # Get theta
         theta, _ = gradientDescent(X=X,
                                    y=y,
-                                   alpha=_alpha,
+                                   alpha=alpha,
                                    _lambda=_lambda,
                                    iterations=num_iters)
 
@@ -134,7 +124,7 @@ if __name__ == '__main__':
     argparser.add_argument('--results-file-path')
     argparser.add_argument('--num-iters', type=int)
     argparser.add_argument('--learn-hyperparamters', type=int)
-    argparser.add_argument('--_alpha', type=float)
+    argparser.add_argument('--alpha', type=float)
     argparser.add_argument('--_lambda', type=float)
 
 
