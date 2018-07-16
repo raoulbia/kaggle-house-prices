@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
 import numpy as np
+
 import seaborn as sns
 sns.set(style="white")
 sns.set(style="whitegrid", color_codes=True)
+
 from matplotlib import pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
+import matplotlib.ticker as plticker
 
 
 #### data exploration
@@ -39,44 +43,53 @@ def pairplot(data, features, outcome):
                  y_vars=['Survived'])
     plt.show()
 
+
+
 def costHistoryPlot(cost_history):
     x = []
     for index, g in enumerate(cost_history):
         x.append(index)
+
     plt.plot(x, cost_history)
-    plt.show()
 
-def plot_learning_curve(errors):
-
-    for i in errors:
-        x = []
-        for index, g in enumerate(i):
-            x.append(index)
-        plt.plot(x, i)
-
-    plt.title("Learning Curve", fontsize=12)
-    plt.ylabel("error", fontsize=12)
-    plt.legend(['train', 'test'])
-    plt.show()
-
-def plot_validation_curve_lambda(reg_param_values, errors):
-    plt.plot(reg_param_values, np.log(errors))
-    ax  = plt.gca()
-    ax.set_ylim(min(np.log(errors)-1),max(np.log(errors)))
-    ax.set_xlim(0, 1)
-
+    plt.title("Cost History")
+    plt.xlabel("iterations (gradient descent)")
     plt.ylabel("error")
-    plt.title("Validation Curve Lambda")
-    plt.legend(['train', 'test'])
+    plt.legend(['train'])
+
     plt.show()
 
-def plot_validation_curve_alpha(learn_param_values, errors):
-    plt.plot(learn_param_values, np.log(errors))
-    ax  = plt.gca()
-    ax.set_ylim(min(np.log(errors)-1),max(np.log(errors)))
-    ax.set_xlim(0, 1)
 
+def plot_learning_curve(errors_tr, errors_val):
+    x = []
+    for index, g in enumerate(errors_tr):
+        x.append(index)
+
+    plt.plot(x, errors_tr)
+    plt.plot(x, errors_val)
+
+    plt.title("Learning Curve")
+    plt.xlabel("training examples")
     plt.ylabel("error")
-    plt.title("Validation Curve Alpha")
-    plt.legend(['train', 'test'])
+    plt.legend(['train', 'val'])
+
+    # plt.autoscale(tight=True)
+    plt.grid()
     plt.show()
+
+
+def plot_validation_curve(hp_values, errors_tr, errors_te, hyperparam):
+
+    plt.plot(hp_values, errors_tr, marker = 'v')
+    plt.plot(hp_values, errors_te, marker = 'o')
+
+    plt.title("Validation Curve %s"%hyperparam)
+    plt.xlabel("%s"%hyperparam)
+    plt.ylabel("error")
+    plt.legend(['train', 'val'])
+
+    plt.xscale('log')
+    # plt.autoscale(tight=True)
+    plt.grid()
+    plt.show()
+
