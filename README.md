@@ -32,14 +32,20 @@ To evaluate the algorithm I implemented:
 
 #### House Price predictions scored by Kaggle
 
-* hyper-parameters: 
-  * num iterations = 1000
-  * learning rate = 0.3 
-  * regularization term = 1.2
+* as of 118/07/2018
+  * root mean squared logarithmic error 0.20197  
+  * hyper-parameters: same as below
+  * this improvement was achieved by using scaling (`sklearn.preprocessing.MinMaxScaler`) instead of 
+    normalization (`sklearn.preprocessing.normalize`).
+    
+* as of 05/07/2018
+  * root mean squared logarithmic error 0.34 
+  * hyper-parameters: 
+    * num iterations = 1500
+    * learning rate = 0.03 
+    * regularization term = 0.0001
+ 
   
-* Results: 
-  * root mean squared logarithmic error 0.34
-  * leaderboard position  4678 (as of 07/2018)
 
 <br>
 

@@ -191,8 +191,13 @@ def gradientDescent(X, y, alpha, _lambda, iterations):
         # matrix-vector multiplication
         gradient = (X.T @ delta) / m  # [n x 1] = [n x m] x [m x 1]
 
-        # normalize the gradient to prvent overflow !
-        # see http://students.engr.scu.edu/~schaidar/expository/Stochastic_Gradient_Descent.pdf
+        """
+        normalize the gradient to prvent overflow !
+        see http://students.engr.scu.edu/~schaidar/expository/Stochastic_Gradient_Descent.pdf
+
+        exploding gradient issue ?
+        mentioned here: https://www.youtube.com/watch?v=FXwKlBXNXdg (4:00)
+        """
         gradient = gradient / np.linalg.norm(gradient)
 
         # multily by learning rate
