@@ -69,6 +69,9 @@ cost.
   * [House price prediction blogpost](https://towardsdatascience.com/regression-analysis-model-used-in-machine-learning-318f7656108a)
   * [Kaggle datasets for regression analysis](https://www.kaggle.com/rtatman/datasets-for-regression-analysis)
   
+* Stochastic Gradient Descent
+  * [An overview of gradient descent optimization algorithms](http://ruder.io/optimizing-gradient-descent/index.html#challenges)
+
 * Learning Rate
   * [High vs. low learning rate](https://stackoverflow.com/questions/34828329/pybrain-overflow-encountered-in-square-invalid-value-encountered-in-multiply)
   * [Understanding Learning Rates and How It Improves Performance in Deep Learning](https://towardsdatascience.com/understanding-learning-rates-and-how-it-improves-performance-in-deep-learning-d0d4059c1c10)
